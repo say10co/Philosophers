@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 19:09:54 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/15 18:45:23 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 22:02:55 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "includes.h"
@@ -43,25 +43,24 @@ int	__init_table(t_required *table, char **argv, int ac)
 pid_t	*create_philo(void *(*f)(t_required), t_required *table)
 {
 	int		i;
-	int		nb_phlo;
 	pid_t	pid;
 	pid_t	*all;
 
-	nb_phlo = table->nb_philosphers;
 	i = -1;
-	all = (pid_t *)(malloc(sizeof(pid_t) * nb_phlo));
+	all = (pid_t *)(malloc(sizeof(pid_t) * table->nb_philosphers));
 	if (!all)
 		return (0);
-	all = memset(all, 0, sizeof(pid_t) * nb_phlo);
 	table->start_time = get_time();
-	while (++i < nb_phlo)
+	while (++i < table->nb_philosphers)
 	{
+		if (i % 2)
+			usleep(5);
 		table->id = i + 1;
 		pid = fork();
 		if (pid == 0)
 		{
 			f(*table);
-			return (0);
+			return (all);
 		}
 		else
 			all[i] = pid;
