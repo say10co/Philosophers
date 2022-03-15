@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:13:39 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/15 14:21:34 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:49:29 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	char			*tmp;
 	int				no_one_left;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_die;
@@ -63,5 +62,6 @@ void			*emulate(void *thread);
 void			print_staus(t_table *table, int id, char *sufix);
 int				check_all_meals(t_table *table);
 void			destroy_mutexes(t_table *table, int nb_m);
+int				all_digits(char **s);
 
 #endif

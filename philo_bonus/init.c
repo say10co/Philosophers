@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 19:09:54 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/15 18:10:23 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:45:23 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "includes.h"
@@ -21,11 +21,11 @@ int	__init_table(t_required *table, char **argv, int ac)
 	all[4] = UNDEFINED;
 	if (ac != 5 && ac != 6)
 		return (printf("Wrong nuber of arguments\n"));
+	if (all_digits(argv))
+		return (1);
 	while (++i < ac - 1)
 	{
 		tmp = ft_atoi(argv[i + 1]);
-		if (tmp < 0 || (!i && tmp > 200))
-			return (printf("Error ecounterd parameter %d !!\n", i +1));
 		all[i] = tmp;
 	}
 	table->nb_philosphers = all[0];

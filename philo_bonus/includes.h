@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:36:12 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/15 15:58:01 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:42:12 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void		ft_usleep(unsigned int n);
 void		*watcher(void *arg);
 void		print_status(long long t, int id, char *suffix, sem_t *perminssion);
 int			all_alive(t_required *all);
+int			all_digits(char **s);
 
 #endif

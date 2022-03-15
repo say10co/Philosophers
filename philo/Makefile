@@ -6,11 +6,11 @@
 #    By: adriouic <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/04 15:30:58 by adriouic          #+#    #+#              #
-#    Updated: 2022/03/15 10:20:48 by adriouic         ###   ########.fr        #
+#    Updated: 2022/03/15 18:23:17 by adriouic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c emulation.c utils.c atoi.c init.c
+SRC = main.c emulation.c utils.c atoi.c init.c additional_check.c
 
 
 OBJS = ${SRC:.c=.o}

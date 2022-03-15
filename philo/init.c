@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 00:33:26 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/15 14:08:24 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:40:41 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "includes.h"
@@ -47,47 +47,22 @@ int	__init_mutex__(t_table *table)
 	return (r1 && r2);
 }
 
-int	check_(int *temp)
-{
-	if (temp[0] > 200)
-	{
-		free(temp);
-		return (printf("Too much Philosophers to Create!\n"));
-	}
-	if (temp[1] < 0 || temp[2] < 0 || temp[3] < 0
-		|| (temp[4] != UNDEFINED && temp[4] < 0))
-	{
-		free(temp);
-		return (printf("Cant work with negative values\n"));
-	}
-	return (0);
-}
-
 int	__init_table__(t_table *table, char **argv, int ac)
 {
-	int	*temp;
-
-	temp = (int *)(malloc(sizeof(int) * 5));
-	if (!temp)
+	if (all_digits(argv))
 		return (1);
-	temp[0] = ft_atoi(argv[1]);
-	temp[1] = ft_atoi(argv[2]);
-	temp[2] = ft_atoi(argv[3]);
-	temp[3] = ft_atoi(argv[4]);
-	temp[4] = UNDEFINED;
+	table->nb_philosophers = ft_atoi(argv[1]);
+	if (table->nb_philosophers > 200)
+		return (printf("Too much Philosophers to Create!\n"));
+	table->time_to_die = ft_atoi(argv[2]);
+	table->time_to_eat = ft_atoi(argv[3]);
+	table->time_to_sleep = ft_atoi(argv[4]);
+	table->nb_times_to_eat = UNDEFINED;
 	if (ac == 6)
-		temp[4] = ft_atoi(argv[5]);
-	if (check_(temp))
-		return (1);
-	table->nb_philosophers = temp[0];
-	table->time_to_die = temp[1];
-	table->time_to_eat = temp[2];
-	table->time_to_sleep = temp[3];
-	table->nb_times_to_eat = temp[4];
+		table->nb_times_to_eat = ft_atoi(argv[5]);
 	table->semulation_on = 1;
 	table->no_one_left = 0;
 	table->died = 0;
-	free(temp);
 	return (0);
 }
 
