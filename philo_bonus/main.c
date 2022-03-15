@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 22:05:44 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/14 22:05:48 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:59:47 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	takeforks_and_eat(t_required *req)
 {
-	int	id;
-	int	st;
+	int			id;
+	long long	st;
 
 	id = req->id;
 	st = req->start_time;
@@ -52,7 +52,8 @@ void	*print_and_wait(t_required req)
 		{
 			req.ate = 1;
 			sem_post(req.one_out);
-			break ;
+			while (1)
+				usleep(50 * 1000);
 		}
 		takeforks_and_eat(&req);
 	}
@@ -102,12 +103,12 @@ int	main(int ac, char **argv)
 		return (1);
 	unlink_semaphores();
 	nb_philos = table.nb_philosphers;
-	table.forks = sem_open("forks", O_CREAT | O_EXCL, 777, nb_philos);
-	table.perminssion = sem_open("print_permission", O_CREAT | O_EXCL, 777, 1);
-	table.end_of_all = sem_open("end_semulation", O_CREAT | O_EXCL, 777, 0);
-	table.one_out = sem_open("finished", O_CREAT | O_EXCL, 777, 0);
-	parent_only = sem_open("parent_only", O_CREAT | O_EXCL, 777, 1);
-	table.tmp = sem_open("temp", O_CREAT | O_EXCL, 777, 1);
+	table.forks = sem_open("forks", O_CREAT | O_EXCL, 600, nb_philos);
+	table.perminssion = sem_open("print_permission", O_CREAT | O_EXCL, 600, 1);
+	table.end_of_all = sem_open("end_semulation", O_CREAT | O_EXCL, 600, 0);
+	table.one_out = sem_open("finished", O_CREAT | O_EXCL, 600, 0);
+	parent_only = sem_open("parent_only", O_CREAT | O_EXCL, 600, 1);
+	table.tmp = sem_open("temp", O_CREAT | O_EXCL, 600, 1);
 	if (sem_created_check(table, parent_only, 0))
 		return (1);
 	all = create_philo(print_and_wait, &table);

@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 19:09:54 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/14 17:21:47 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:10:23 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "includes.h"
@@ -52,6 +52,7 @@ pid_t	*create_philo(void *(*f)(t_required), t_required *table)
 	all = (pid_t *)(malloc(sizeof(pid_t) * nb_phlo));
 	if (!all)
 		return (0);
+	all = memset(all, 0, sizeof(pid_t) * nb_phlo);
 	table->start_time = get_time();
 	while (++i < nb_phlo)
 	{
@@ -68,7 +69,7 @@ pid_t	*create_philo(void *(*f)(t_required), t_required *table)
 	return (all);
 }
 
-int	get_time(void)
+long long	get_time(void)
 {
 	struct timeval	tv;
 

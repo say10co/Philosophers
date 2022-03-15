@@ -6,7 +6,7 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 19:09:02 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/14 21:45:10 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:14:46 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	ft_usleep(unsigned int n)
 	}
 }
 
-void	print_status(int t, int id, char *suffix, sem_t *perminssion)
+void	print_status(long long t, int id, char *suffix, sem_t *perminssion)
 {
 	int	r;
 
 	sem_wait(perminssion);
-	printf("%d %d %s\n", t, id, suffix);
+	printf("%lld %d %s\n", t, id, suffix);
 	r = ft_strlen(suffix);
 	if (r != 4)
 		sem_post(perminssion);
@@ -43,7 +43,7 @@ void	*watcher(void *arg)
 {
 	t_required	*e;
 	int			nb_philo;
-	int			st;
+	long long	st;
 
 	e = (t_required *)arg;
 	nb_philo = e->nb_philosphers;
@@ -57,7 +57,6 @@ void	*watcher(void *arg)
 			print_status(get_time() - st, e->id, "died", e->perminssion);
 			usleep(100);
 			sem_post(e->end_of_all);
-			return (0);
 		}
 		sem_post(e->tmp);
 		usleep(100);
@@ -83,19 +82,23 @@ void	*second_watcher(void *arg)
 	return (0);
 }
 
-void	all_alive(t_required *arg)
+int	all_alive(t_required *arg)
 {	
 	pthread_t	second_w;
 	pid_t		*all;
 	int			nb_ph;
 	int			i;
 
-	i = -1;
+	i = 0;
 	nb_ph = arg->nb_philosphers;
 	all = arg->all;
 	pthread_create(&second_w, NULL, second_watcher, arg);
 	pthread_detach(second_w);
 	sem_wait(arg->end_of_all);
-	while (++i < nb_ph)
+	while (i < nb_ph)
+	{
 		kill(all[i], SIGKILL);
+		i++;
+	}
+	return (0);
 }
