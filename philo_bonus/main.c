@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 19:08:52 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/14 17:04:27 by adriouic         ###   ########.fr       */
+/*   Created: 2022/03/14 22:05:44 by adriouic          #+#    #+#             */
+/*   Updated: 2022/03/14 22:05:48 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,17 @@ static void	unlink_semaphores(void)
 	sem_unlink("temp");
 }
 
-static int	sem_created_check(t_required table, sem_t *parent_only)
+static int	sem_created_check(t_required table, sem_t *parent_only, int c)
 {
+	if (c)
+	{
+		sem_close(table.forks);
+		sem_close(table.tmp);
+		sem_close(table.perminssion);
+		sem_close(table.end_of_all);
+		sem_close(parent_only);
+		return (0);
+	}
 	if (table.forks == SEM_FAILED || table.perminssion == SEM_FAILED
 		|| table.end_of_all == SEM_FAILED || parent_only == SEM_FAILED
 		|| table.tmp == SEM_FAILED)
@@ -99,13 +108,12 @@ int	main(int ac, char **argv)
 	table.one_out = sem_open("finished", O_CREAT | O_EXCL, 777, 0);
 	parent_only = sem_open("parent_only", O_CREAT | O_EXCL, 777, 1);
 	table.tmp = sem_open("temp", O_CREAT | O_EXCL, 777, 1);
-	if (sem_created_check(table, parent_only))
+	if (sem_created_check(table, parent_only, 0))
 		return (1);
 	all = create_philo(print_and_wait, &table);
 	table.all = all;
 	sem_wait(parent_only);
 	all_alive(&table);
-	sem_close(table.forks);
-	sem_close(parent_only);
+	sem_created_check(table, parent_only, 1);
 	return (0);
 }

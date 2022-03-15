@@ -6,11 +6,12 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:32:31 by adriouic          #+#    #+#             */
-/*   Updated: 2022/03/14 17:49:02 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:24:20 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes.h"
+#include <string.h>
 
 void	ft_usleep(unsigned int n)
 {
@@ -28,25 +29,24 @@ void	ft_usleep(unsigned int n)
 	}
 }
 
-void	print_staus(t_table table, int id, char *sufix)
+void	print_staus(t_table *table, int id, char *sufix)
 {
-	int	t1;
+	long long	t1;
 
-	if (table.semulation_on)
+	pthread_mutex_lock(&(table->print_perission));
+	if (table->semulation_on)
 	{
-		pthread_mutex_lock(&(table.print_perission));
-		t1 = get_time() - table.start_time;
-		printf("%d %d %s\n", t1, id, sufix);
-		if (!table.died)
-			pthread_mutex_unlock(&(table.print_perission));
+		t1 = get_time () - table->start_time;
+		printf("%lld %d %s\n", t1, id, sufix);
 	}
+	pthread_mutex_unlock(&(table->print_perission));
 }
 
 void	fallen_angel(t_table *table)
 {
-	int		p;
-	int		time_to_die;
-	t_philo	*all_philos;
+	unsigned int	p;
+	unsigned int	time_to_die;
+	t_philo			*all_philos;
 
 	all_philos = table->all;
 	time_to_die = table->time_to_die;
@@ -60,11 +60,11 @@ void	fallen_angel(t_table *table)
 				&& !all_philos[p].survived)
 			{
 				table->died = 1;
-				print_staus(*table, all_philos[p].id, "died");
+				print_staus(table, all_philos[p].id, "died");
 				table->semulation_on = 0;
 			}
 			pthread_mutex_unlock(&(table->no_iterrupt));
-			usleep(100);
+			usleep(10);
 		}
 		if (table->semulation_on && check_all_meals(table))
 			break ;

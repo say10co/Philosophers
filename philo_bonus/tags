@@ -1,0 +1,17 @@
+Mmain	main.c	/^int	main(int ac, char **argv)$/
+__init_table	init.c	/^int	__init_table(t_required *table, char **argv, i/
+all_alive	utils.c	/^void	all_alive(t_required *arg)$/
+create_philo	init.c	/^pid_t	*create_philo(void *(*f)(t_required), t_requ/
+ft_atoi	ft_atoi.c	/^int	ft_atoi(const char *str)$/
+ft_skip	ft_atoi.c	/^static int	ft_skip(const char **str)$/
+ft_strlen	init.c	/^int	ft_strlen(const char *s)$/
+ft_usleep	utils.c	/^void	ft_usleep(unsigned int n)$/
+get_time	init.c	/^int	get_time(void)$/
+print_and_wait	main.c	/^void	*print_and_wait(t_required req)$/
+print_status	utils.c	/^void	print_status(int t, int id, char *suffix, sem/
+second_watcher	utils.c	/^void	*second_watcher(void *arg)$/
+sem_created_check	main.c	/^static int	sem_created_check(t_required table, sem/
+t_required	includes.h	/^}t_required;$/
+takeforks_and_eat	main.c	/^void	takeforks_and_eat(t_required *req)$/
+unlink_semaphores	main.c	/^static void	unlink_semaphores(void)$/
+watcher	utils.c	/^void	*watcher(void *arg)$/

@@ -6,30 +6,23 @@
 #    By: adriouic <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/04 15:30:58 by adriouic          #+#    #+#              #
-#    Updated: 2022/03/15 10:20:48 by adriouic         ###   ########.fr        #
+#    Updated: 2022/03/15 10:19:37 by adriouic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c emulation.c utils.c atoi.c init.c
-
-
-OBJS = ${SRC:.c=.o}
+SRC = main.c emulation.c utils.c atoi.c init.c 
 
 NAME = philo
 
-FLAGS = -Wall -Werror -Wextra
-
+FLAGS = -Wall -Werror -Wextra 
+FS = -fsanitize=address -g
 all: $(NAME)
 
-%.o:%.c
-	cc -c $(FLAGS) $< -o ${<:.c=.o}
-
-$(NAME): $(OBJS)
-	cc $(FLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(SRC)
+	cc $(FLAGS) $(SRC) $(FS) -o $(NAME)
 
 clean:
-	rm -rf $(OBJS)
-
+	
 fclean:	clean
 	rm -rf $(NAME)
 
